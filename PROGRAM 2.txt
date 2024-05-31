@@ -1,0 +1,50 @@
+PROGRAM 2
+
+//To check the expression is balanced or not
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+#define MAX 100
+
+bool areBracketsBalanced(char exp[]) {
+    char stack[MAX];
+    int top = -1;
+    int i;
+
+    for (i = 0; exp[i] != '\0'; i++) {
+        if (exp[i] == '(' || exp[i] == '{' || exp[i] == '[') {
+            if (top >= MAX - 1) {
+                return false; 
+            }
+            stack[++top] = exp[i];
+        } else if (exp[i] == ')' || exp[i] == '}' || exp[i] == ']') {
+            if (top == -1) {
+                return false; 
+            }
+            char lastBracket = stack[top--];
+            if ((exp[i] == ')' && lastBracket != '(') ||
+                (exp[i] == '}' && lastBracket != '{') ||
+                (exp[i] == ']' && lastBracket != '[')) {
+                return false; 
+            }
+        }
+    }
+
+    return top == -1;
+}
+
+int main() {
+    char exp[MAX];
+    printf("Enter an expression: ");
+    scanf("%s", exp);
+
+    if (areBracketsBalanced(exp)) {
+        printf("Balanced\n");
+    } else {
+        printf("Not Balanced\n");
+    }
+
+    return 0;
+}
